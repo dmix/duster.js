@@ -8,9 +8,11 @@ Duster.js - Node script to watch & compile directory of dust.js templates
 
 ## Usage
 
+Create dust.js templates in ./src/dusts/ with the file extension .dust and create ./public/dusts directory where files will be compiled to, then run watcher script:
+
     $ node duster.js
 
-All dust templates in src folder will be rendered to public folder (you can modify folder paths in duster.js)
+You can modify folder paths in the duster.js file
 
 ## Example:
 
