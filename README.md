@@ -8,14 +8,12 @@ The only option was to include the dust-full.js file and compile the templates o
 So I wrote a simple Node script <a href="#">Duster.js</a> to watch a directory of .dust templates and compile them into .js files which can be included into an HTML file.
 
 ## Install
-
 Download duster.js to your project root folder and install dependencies:
 
     npm install dust
     npm install watch-tree
 
 ## Usage
-
 Create dust.js templates in ./src/dusts/ with the file extension .dust and create ./public/dusts directory where files will be compiled to, then run watcher script:
 
     $ node duster.js
@@ -23,7 +21,6 @@ Create dust.js templates in ./src/dusts/ with the file extension .dust and creat
 You can modify folder paths in the duster.js file
 
 ## Example:
-
     ./src/dusts/tweet.dust
     ./src/dusts/user.dust
 
