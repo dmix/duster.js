@@ -1,18 +1,18 @@
 Duster.js - Node script to watch & compile directory of dust.js templates
 ==============
 
-Install
+## Install
 
     npm install dust
     npm install watch-tree
 
-Usage
+## Usage
 
     $ node duster.js
 
 All dust templates in src folder will be rendered to public folder (you can modify folder paths in duster.js)
 
-For example:
+## Example:
 
     ./src/dusts/tweet.dust
     ./src/dusts/user.dust
