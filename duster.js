@@ -2,12 +2,12 @@
 // Watch directory of dust.js templates and automatically compile them
 // by Dan McGrady http://dmix.ca
 
+var src_path = "./src/dusts"; // directory of dust templates are stored with .dust file extension
+var public_path = "./public/dusts/"; // directory where the compiled .js files should be saved to
+
 var fs = require('fs');                                                                        
 var dust = require('dust');
 var watcher = require('watch-tree').watchTree(src_path, {'sample-rate': 30}); // polls folder ever 30ms
-
-var src_path = "./src/dusts"; // directory of dust templates are stored with .dust file extension
-var public_path = "./public/dusts/"; // directory where the compiled .js files should be saved to
 
 watcher.on('fileModified', function(path, stats) {
   fs.readFile(path, 'ascii', function (err, data) {
