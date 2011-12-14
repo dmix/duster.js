@@ -3,6 +3,8 @@ Duster.js - Node script to watch & compile directory of dust.js templates
 
 ## Install
 
+Download duster.js to your project root folder and install dependencies:
+
     npm install dust
     npm install watch-tree
 
