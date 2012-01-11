@@ -7,7 +7,7 @@ var public_path = "./public/dusts/"; // directory where the compiled .js files s
 
 var fs = require('fs');                                                                        
 var dust = require('dust');
-var watcher = require('watch-tree').watchTree(src_path, {'sample-rate': 30}); // polls folder ever 30ms
+var watcher = require('watch-tree').watchTree(src_path, {'sample-rate': 30}); // polls folder every 30ms
 
 watcher.on('fileModified', function(path, stats) {
   fs.readFile(path, 'ascii', function (err, data) {
