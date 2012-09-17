@@ -1,11 +1,13 @@
-Duster.js - Node script to watch & compile directory of dust.js templates
+Duster.js - Node script to watch & precompile directory of dustjs templates
 ==============
 
-From reading the dust.js documentation there was no clear way to work with dust templates in a purely client-side browser-based approach. The docs seem to be targetted at server-side node.js applications.
+A simple Node script <a href="#">Duster.js</a> to watch a directory of .dust templates and compile them into .js files which can be included into an HTML file.
 
-The only option was to include the dust-full.js file and compile the templates on each browser load. The file is much larger than the normal dust-core.js and this approach provides no extra value over other templating solutions (performance, browser caching, external file management etc).
+Why? The dust.js documentation does not mentioned a clear way to work with dust templates in a purely client-side approach, instead focusing on server-side node.js applications.
 
-So I wrote a simple Node script <a href="#">Duster.js</a> to watch a directory of .dust templates and compile them into .js files which can be included into an HTML file.
+For my backbone.js app, the only option was to include the dust-full.js file and compile the templates on each browser load. The file is much larger than the normal dust-core.js and this approach provides no extra value over other templating solutions (performance, browser caching, external file management etc).
+
+So I wrote a script to pre-compile dust.js files whenever they are modified in a folder.
 
 ## Install
 Download duster.js to your project root folder and install dependencies:
@@ -31,7 +33,7 @@ Compiles to:
 
 Then you include them in the html:
 
-    <script src="dust-core-0.3.0.min.js"></script>
+    <script src="dust-core-1.0.0.min.js"></script>
     <script src="tweet.js"></script>
     <script src="user.js"></script>
 
