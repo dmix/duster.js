@@ -2,20 +2,20 @@
 // Watch directory of dust.js templates and automatically compile them
 // by Dan McGrady http://dmix.ca
 
-var src_path = "./src/dusts"; // directory of dust templates are stored with .dust file extension
-var public_path = "./public/dusts/"; // directory where the compiled .js files should be saved to
+var input_path = "./dusts"; // directory of dust templates are stored with .dust file extension
+var output_path = "./javascripts/dusts/"; // directory where the compiled .js files should be saved to
 
 var fs = require('fs');
 var dust = require('dustjs-linkedin');
-var watcher = require('watch-tree').watchTree(src_path, {'sample-rate': 30}); // polls folder every 30ms
+var watch = require('watch');
 
-function compile_dust(path, stats) {
-  fs.readFile(path, 'utf-8', function(err, data) {
+function compile_dust(path, curr, prev) {
+  fs.readFile(path, function(err, data) {
     if (err) throw err;
 
     var filename = path.split("/").reverse()[0].replace(".dust", "");
-    var filepath = public_path + filename + ".js";
-    var compiled = dust.compile(data, filename);
+    var filepath = output_path + filename + ".js";
+    var compiled = dust.compile(new String(data), filename);
 
     fs.writeFile(filepath, compiled, function(err) {
       if (err) throw err;
@@ -24,5 +24,9 @@ function compile_dust(path, stats) {
   });
 }
 
-watcher.on("filePreexisted", compile_dust);
-watcher.on('fileModified', compile_dust);
+watch.createMonitor(input_path, function (monitor) {
+  console.log("Watching " + input_path);
+  monitor.files['*.dust', '*/*'];
+  monitor.on("created", compile_dust);
+  monitor.on("changed", compile_dust);
+})

@@ -10,7 +10,7 @@ So I wrote a simple Node script <a href="#">Duster.js</a> to watch a directory o
 ## Install
 Download duster.js to your project root folder and install dependencies:
 
-    npm install dust
+    npm install dustjs-linkedin
     npm install watch-tree
 
 ## Usage
