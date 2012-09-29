@@ -17,6 +17,10 @@ Clone this repository
 Run the installation 
     $ npm install
 
+Get the growl app from the App Store (*not free) or from here https://bitbucket.org/pmetzger/growl/downloads
+
+Be sure to install growlnotify plugin
+
 ## Usage
 Create a file named .dusterjs in your home directory and add the input and output paths to it. The file is expected to be in YAML format
 
