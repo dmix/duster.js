@@ -69,7 +69,7 @@ function createMonitor() {
 		});
 	} catch (err) {
 		growl('Error: ' + err, true);
-		console.log(e);
+		console.log(err);
 	}
 }
 
