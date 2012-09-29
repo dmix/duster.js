@@ -1,0 +1,13 @@
+{
+   "name": "dusterjs",
+   "description": "Duster.js - Node script to watch & precompile directory of dustjs templates",
+   "version": "0.0.1",
+   "main": "duster.js",
+   "dependencies": {
+       "dustjs-linkedin": ">= 1.1.0",
+       "watch": ">= 0.5.1",
+       "watch-tree": ">= 0.1.1",
+       "js-yaml": ">= 1.0.2",
+       "colors": ">= 0.6.0-1"
+   }
+}
