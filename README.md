@@ -1,6 +1,8 @@
 Duster.js - Node script to watch & precompile directory of dustjs templates
 ==============
 
+Based on the original script by Dan McGrady http://dmix.ca
+
 A simple Node script <a href="#">Duster.js</a> to watch a directory of .dust templates and compile them into .js files which can be included into an HTML file.
 
 Why? The dust.js documentation does not mentioned a clear way to work with dust templates in a purely client-side approach, instead focusing on server-side node.js applications.
@@ -10,33 +12,37 @@ For my backbone.js app, the only option was to include the dust-full.js file and
 So I wrote a script to pre-compile dust.js files whenever they are modified in a folder.
 
 ## Install
-Download duster.js to your project root folder and install dependencies:
+Clone this repository
 
-    npm install dustjs-linkedin
-    npm install watch-tree
+Run the installation 
+    $ npm install
 
 ## Usage
-Create dust.js templates in ./src/dusts/ with the file extension .dust and create ./public/dusts directory where files will be compiled to, then run watcher script:
+Create a file named .dusterjs in your home directory and add the input and output paths to it. The file is expected to be in YAML format
+
+Example: 
+
+    ---
+    input_path:   /Users/<username>/src.dust/
+    output_path:  /Users/<username>/dust/
+
+Create dust.js templates in the <input_path> dir with the file extension .dust and create <output_path> directory where files will be compiled to, then run watcher script:
 
     $ node duster.js
 
-You can modify folder paths in the duster.js file
-
 ## Example:
-    ./src/dusts/tweet.dust
-    ./src/dusts/user.dust
+    <input_path>/tweet.dust
+    <input_path>/user.dust
 
 Compiles to:
 
-    ./public/dusts/tweet.js
-    ./public/dusts/user.js
+    <output_path>/tweet.js
+    <output_path>/user.js
 
-Then you include them in the html:
+## Changes by Suresh Jayanty
 
-    <script src="dust-core-1.0.0.min.js"></script>
-    <script src="tweet.js"></script>
-    <script src="user.js"></script>
+* Added support for growl notifications
 
-I then use Jammit to concatenate all the JS files before production deployment.
+* Added support for settings file
 
-by Dan McGrady http://dmix.ca
+* Ignoring .swp files created when some one uses vim to edit the dust files
