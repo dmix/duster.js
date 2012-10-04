@@ -13,7 +13,7 @@ So I wrote a script to pre-compile dust.js files whenever they are modified in a
 Download duster.js to your project root folder and install dependencies:
 
     npm install dustjs-linkedin
-    npm install watch-tree
+    npm install watch
 
 ## Usage
 Create dust.js templates in ./src/dusts/ with the file extension .dust and create ./public/dusts directory where files will be compiled to, then run watcher script:
