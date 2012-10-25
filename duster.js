@@ -12,7 +12,11 @@ var fs = require('fs'),
 		'input_path': './src.dust',
 		'output_path': './dust'
 	},
-	user_settings_file = process.env['HOME'] + '/.dusterjs';
+	user_settings_file = process.env['HOME'] + '/.dusterjs',
+	svnRegex = /\.svn/,
+	swpRegex = /\.swp/,
+	gitRegex = /\.git/
+	dustRegex = /\.dust$/;
 
 
 function growl(message, sticky) {
@@ -27,19 +31,27 @@ function growl(message, sticky) {
 }
 
 function compile_dust(path, curr, prev) {
-	if (/.swp/.exec(path)) {
+	if (swpRegex.exec(path)) {
+		console.log(('Ignoring file: ' + path).red);
+		return;
+	}
+	if (svnRegex.exec(path)) {
+		console.log(('Ignoring file: ' + path).red);
+		return;
+	}
+	if (gitRegex.exec(path)) {
 		console.log(('Ignoring file: ' + path).red);
 		return;
 	}
 	fs.readFile(path, function(err, data) {
 		if (err) {
 
-			growl('Error: ' + err, true);
+			growl('Error: ' + err + ' : ' + path , true);
 			throw err;
 		}
 
 		var filename = path.split("/").reverse()[0].replace(".dust", "");
-		var filepath = file_options.output_path + filename + ".js";
+		var filepath = file_options.output_path +  '/' + filename + ".js";
 		var compiled = '';
 		try {
 			compiled = dust.compile(new String(data), filename);
@@ -49,6 +61,7 @@ function compile_dust(path, curr, prev) {
 					growl('Error: ' + err, true);
 					throw err;
 				}
+				console.log('Saved ' + filepath);
 				growl('Saved ' + filepath);
 			});
 		} catch (err) {
@@ -62,7 +75,7 @@ function createMonitor() {
 		watch.createMonitor(file_options.input_path, {
 			'ignoreDotFiles': true
 		}, function(monitor) {
-			("Watching " + file_options.input_path);
+			console.log("Watching " + file_options.input_path);
 			monitor.files['*.dust', '*/*'];
 			monitor.on("created", compile_dust);
 			monitor.on("changed", compile_dust);
@@ -71,6 +84,26 @@ function createMonitor() {
 		growl('Error: ' + err, true);
 		console.log(err);
 	}
+}
+
+function processCurrentFiles() {
+	fs.readdir(file_options.input_path, function(err, files) {
+        if(!err) {
+            files.forEach(function(filename) {
+            	var dustFile;
+            	if(!dustRegex.exec(filename)) {
+            		return;
+            	}
+            	dustFile = filename.replace('.dust', '') + '.js';
+                fs.stat(file_options.output_path + '/' + dustFile, function(err, props) {
+                    if(err) {
+                        console.log('file not found: ' + file_options.output_path + '/' + dustFile);
+                        compile_dust(file_options.input_path + '/' + filename);
+                    }
+                });
+            });
+        }
+    });
 }
 
 function main() {
@@ -93,6 +126,7 @@ function main() {
 						growl('Watching ' + file_options.input_path + ' for changes');
 						growl('Saving compiled templates to ' + file_options.output_path);
 
+						processCurrentFiles();
 						createMonitor();
 					});
 				} catch (err) {
@@ -102,6 +136,8 @@ function main() {
 		} else {
 			growl('Watching ' + file_options.input_path + ' for changes');
 			growl('Saving compiled templates to ' + file_options.output_path);
+
+			processCurrentFiles();
 			createMonitor();
 		}
 	});
