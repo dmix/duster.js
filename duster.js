@@ -27,7 +27,7 @@ function compile_dust(path, curr, prev) {
     // until it does?  At the moment, manual creation of directories is required.
 
     var filepath = output_path + destpath + filename + ".js";
-    var compiled = dust.compile(new String(data), filename);
+    var compiled = dust.compile(new String(data), destpath + filename);
     
     fs.writeFile(filepath, compiled, function(err) {
       if (err) throw err;
