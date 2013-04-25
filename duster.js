@@ -19,7 +19,7 @@ function compile_dust(path, curr, prev) {
 
     var split_path = path.split("/");
     var filename = split_path.reverse()[0].replace(".dust", "");
-    var destpath_parts = split_path.slice(input_parts, split_path.length - 1);
+    var destpath_parts = split_path.reverse().slice(input_parts, split_path.length - 1);
     var destpath = destpath_parts.join("/");
     if (destpath.length > 0) destpath = destpath + "/";
 
