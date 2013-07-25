@@ -5,40 +5,56 @@
 // Modified by Chris Dew http://www.barricane.com to work nicely with Express
 // and to deal with sub directories properly (i.e. create files in sub directories)
 
-var input_path = "./views/"; // directory of dust templates are stored with .dust file extension
-var input_parts = 1;
-var output_path = "./public/js/dust/"; // directory where the compiled .js files should be saved to
+var fs = require('fs'),
+    path = require('path'),
+    dust = require('dustjs-linkedin'),
+    watch = require('watch'),
 
-var fs = require('fs');
-var dust = require('dustjs-linkedin');
-var watch = require('watch');
+    // get current working directory and path to config file
+    cwd = process.cwd().substr(0),
+    config = path.normalize(cwd + '/duster.json');
 
-function compile_dust(path, curr, prev) {
-  fs.readFile(path, function(err, data) {
-    if (err) throw err;
+function duster (data) {
+  var config = data,
+      input_path = path.normalize(cwd + config.raw_dir);
 
-    var split_path = path.split("/");
-    var filename = split_path.reverse()[0].replace(".dust", "");
-    var destpath_parts = split_path.reverse().slice(input_parts, split_path.length - 1);
-    var destpath = destpath_parts.join("/");
-    if (destpath.length > 0) destpath = destpath + "/";
-
-    // Should this check that dest path exists and if not recursively mkdir
-    // until it does?  At the moment, manual creation of directories is required.
-
-    var filepath = output_path + destpath + filename + ".js";
-    var compiled = dust.compile(new String(data), destpath + filename);
-    
-    fs.writeFile(filepath, compiled, function(err) {
+  function compile_dust(filePath, curr, prev) {
+    // read dust template
+    fs.readFile(filePath, function(err, data) {
       if (err) throw err;
-      console.log('Saved ' + filepath);
+      
+      // set our template id to the filename
+      var templateId = path.basename(filePath, '.dust'),
+
+      // and mirror our template path
+          output_path = cwd + config.pre_dir + filePath.substring(input_path.length);
+      output_path = path.normalize(output_path.substring(0, output_path.lastIndexOf('.')) + '.js');
+
+      // compile and save
+      var compiled = dust.compile(new String(data), templateId);
+      
+      fs.writeFile(output_path, compiled, function(err) {
+        if (err) throw err;
+        console.log('Saved ' + output_path);
+      });
     });
+  }
+
+  watch.createMonitor(input_path, function (monitor) {
+    console.log("Watching " + input_path);
+    monitor.files['*.dust', '*/*'];
+    monitor.on("created", compile_dust);
+    monitor.on("changed", compile_dust);
   });
 }
 
-watch.createMonitor(input_path, function (monitor) {
-  console.log("Watching " + input_path);
-  monitor.files['*.dust', '*/*'];
-  monitor.on("created", compile_dust);
-  monitor.on("changed", compile_dust);
-})
+// read configuration file
+fs.readFile(config, 'utf8', function (err, data) {
+  if (err) { 
+    console.log('Error: ' + err);
+    return;
+  }
+
+  duster(JSON.parse(data));
+});
+
