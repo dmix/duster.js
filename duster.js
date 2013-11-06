@@ -40,7 +40,10 @@ function duster (data) {
     });
   }
 
-  watch.createMonitor(input_path, function (monitor) {
+  watch.createMonitor(input_path, {
+    persistent: true,
+    interval: 100
+  }, function (monitor) {
     console.log("Watching " + input_path);
     monitor.files['*.dust', '*/*'];
     monitor.on("created", compile_dust);
