@@ -48,8 +48,18 @@ function duster (data) {
   watch.createMonitor(input_path, function (monitor) {
     console.log("Watching " + input_path);
     monitor.files['*.dust', '*/*'];
-    monitor.on("created", compile_dust);
-    monitor.on("changed", compile_dust);
+    monitor.on("created", function (f, stat) {
+      if (fs.lstatSync(f).isDirectory()) {
+        return;
+      }
+      compile_dust(f);
+    });
+    monitor.on("changed", function (f, curr, prev) {
+      if (fs.lstatSync(f).isDirectory()) {
+        return;
+      }
+      compile_dust(f);
+    });
   });
 }
 
