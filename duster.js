@@ -31,7 +31,7 @@ function duster (data) {
       output_path = path.normalize(output_path.substring(0, output_path.lastIndexOf('.')) + '.js');
 
       // compile and save
-      var compiled = dust.compile(new String(data), templateId);
+      var compiled = dust.compile(String(data), templateId);
       
       fs.writeFile(output_path, compiled, function(err) {
         if (err) throw err;
