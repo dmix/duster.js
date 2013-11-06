@@ -42,7 +42,7 @@ function duster (data) {
 
   watch.createMonitor(input_path, function (monitor) {
     console.log("Watching " + input_path);
-    monitor.files['*.dust', '*/*'];
+    monitor.files = ['*.dust', '*/*'];
     monitor.on("created", compile_dust);
     monitor.on("changed", compile_dust);
   });
