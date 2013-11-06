@@ -33,6 +33,11 @@ function duster (data) {
       // compile and save
       var compiled = dust.compile(new String(data), templateId);
       
+      var dirname = path.dirname(output_path);
+      if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname);
+      }
+
       fs.writeFile(output_path, compiled, function(err) {
         if (err) throw err;
         console.log('Saved ' + output_path);
