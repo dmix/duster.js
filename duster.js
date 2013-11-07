@@ -33,6 +33,11 @@ function duster (data) {
       // compile and save
       var compiled = dust.compile(new String(data), templateId);
       
+      var dirname = path.dirname(output_path);
+      if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname);
+      }
+
       fs.writeFile(output_path, compiled, function(err) {
         if (err) throw err;
         console.log('Saved ' + output_path);
@@ -43,8 +48,18 @@ function duster (data) {
   watch.createMonitor(input_path, function (monitor) {
     console.log("Watching " + input_path);
     monitor.files['*.dust', '*/*'];
-    monitor.on("created", compile_dust);
-    monitor.on("changed", compile_dust);
+    monitor.on("created", function (f, stat) {
+      if (fs.lstatSync(f).isDirectory()) {
+        return;
+      }
+      compile_dust(f);
+    });
+    monitor.on("changed", function (f, curr, prev) {
+      if (fs.lstatSync(f).isDirectory()) {
+        return;
+      }
+      compile_dust(f);
+    });
   });
 }
 
