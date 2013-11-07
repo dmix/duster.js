@@ -31,7 +31,7 @@ function duster (data) {
       output_path = path.normalize(output_path.substring(0, output_path.lastIndexOf('.')) + '.js');
 
       // compile and save
-      var compiled = dust.compile(new String(data), templateId);
+      var compiled = dust.compile(String(data), templateId);
       
       var dirname = path.dirname(output_path);
       if (!fs.existsSync(dirname)) {
@@ -50,7 +50,7 @@ function duster (data) {
     interval: 100
   }, function (monitor) {
     console.log("Watching " + input_path);
-    monitor.files['*.dust', '*/*'];
+    monitor.files = ['*.dust', '*/*'];
     monitor.on("created", function (f, stat) {
       if (fs.lstatSync(f).isDirectory()) {
         return;
