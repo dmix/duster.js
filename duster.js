@@ -1,9 +1,6 @@
 #!/usr/bin/env node
-// duster.js  
-// Watch directory of dust.js templates and automatically compile them
-// by Dan McGrady http://dmix.ca
-// Modified by Chris Dew http://www.barricane.com to work nicely with Express
-// and to deal with sub directories properly (i.e. create files in sub directories)
+// duster.js 
+// Node script to watch & precompile directory of dust.js templates
 
 var fs = require('fs'),
     path = require('path'),
