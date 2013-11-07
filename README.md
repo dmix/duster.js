@@ -1,5 +1,4 @@
 Duster.js - Watch & precompile dust.js templates
-
 =============
 
 A simple Node script <a href="https://github.com/dmix/dusterjs">duster.js</a> to watch a directory of .dust templates and compile them into .js files which can be included into an HTML file.
