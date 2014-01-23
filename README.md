@@ -13,21 +13,34 @@ So I wrote a script to pre-compile dust.js files whenever they are modified in a
 ## Install
 Download duster.js to your project root folder and install dependencies:
 
-    npm install dustjs-linkedin
-    npm install watch
+    npm install
 
 ## Usage
 Create dust.js templates in ./src/dusts/ with the file extension .dust and create ./public/dusts directory where files will be compiled to, then run watcher script:
 
     $ node duster.js
+    $ npm start (alternative)
 
-You can modify folder paths in the duster.js file
+You can modify folder paths in the duster.json configuration file
+
+    raw_dir - directory to watch for .dust files
+    pre_dir - directory to place output .js files int
 
 ## Example:
+
+Configuration:
+
+{
+  "raw_dir": "./src/dusts",
+  "pre_dir": "./public/dusts"
+}
+
+Then these files:
+
     ./src/dusts/tweet.dust
     ./src/dusts/user.dust
 
-Compiles to:
+Compile to:
 
     ./public/dusts/tweet.js
     ./public/dusts/user.js
