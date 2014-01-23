@@ -1,0 +1,13 @@
+{
+  "name": "duster.js",
+  "description": "Watches a directory and compiles dust templates",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "start": "node duster.js"
+  },
+  "dependencies": {
+    "dustjs-linkedin": "*",
+    "watch": "*"
+  }
+}
