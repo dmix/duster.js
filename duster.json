@@ -1,4 +1,4 @@
 {
-  "raw_dir": "/templates/html",
-  "pre_dir": "/templates/precompiled"
+  "raw_dir": "/sample/raw",
+  "pre_dir": "/sample/precompiled"
 }

@@ -1,0 +1,1 @@
+(function(){dust.register("sample",body_0);function body_0(chk,ctx){return chk.reference(ctx._get(false, ["title"]),ctx,"h").write("<ul>").section(ctx._get(false, ["names"]),ctx,{"block":body_1},null).write("</ul><footer></footer>");}function body_1(chk,ctx){return chk.write("<li>").reference(ctx._get(false, ["name"]),ctx,"h").write("</li>\n");}return body_0;})();
